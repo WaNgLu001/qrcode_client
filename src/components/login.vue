@@ -14,12 +14,12 @@
                 <el-input class="input" v-model="ruleForm.Uname" placeholder="姓名"></el-input>
               </el-form-item>
               <br>
-              <el-form-item prop="Uclass">
-                <el-input class="input" v-model="ruleForm.Uclass" placeholder="班级"></el-input>
-              </el-form-item>
-              <br>
               <el-form-item prop="Unum">
               <el-input class="input" type="number" v-model="ruleForm.Unum" placeholder="学号"></el-input>
+              </el-form-item>
+                <br>
+              <el-form-item prop="Uclass">
+                <el-input class="input" v-model="ruleForm.Uclass" placeholder="所在教室"></el-input>
               </el-form-item>
             </el-form>
          </div>     
@@ -51,8 +51,8 @@ export default {
             { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
           ],
           Uclass: [
-            { required: true, message: '请输入您的班级', trigger: 'blur' },
-            { min: 5, max: 7, message: '长度在 5 到 7 个字符', trigger: 'blur' }
+            { required: true, message: '请输入您的所在教室', trigger: 'blur' },
+            { min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
           ],
           Unum: [
             { required: true, message: '请输入正确的学号', trigger: 'blur' },

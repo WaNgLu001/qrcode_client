@@ -8,7 +8,7 @@ import index from '../components/index.vue';
 import callback from '../components/callback.vue'
 import saoma from '../components/saoma.vue'
 import QRfail from '../components/QRfail.vue'
-
+import test from '../components/test.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -39,6 +39,10 @@ const routes = [
   {
     path:'/QRfail',
     component:QRfail,
+  },
+  {
+    path:'/test',
+    component:test,
   }
 ]
 

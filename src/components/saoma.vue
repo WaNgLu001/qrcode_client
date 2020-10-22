@@ -37,7 +37,9 @@ export default {
             this.$router.push({path:'/home'})
           }else if(data.status === 3){
             this.$Toast.fail("学号不存在，请注册后再进行签到")
-            this.$router.push({path:'/home'})
+            localStorage.removeItem("admin")
+            localStorage.removeItem("userObj")
+            this.$router.push({path:'/'})
           }
         
     },
