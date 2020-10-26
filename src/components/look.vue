@@ -6,7 +6,7 @@
     :data="tableData"
     stripe
     border
-    height = "600"
+    height = "800"
     style="width: 100%">
     <el-table-column
       prop="class"
@@ -15,47 +15,47 @@
       :filters="filterData"
       :filter-method="filterHandler"
       :filter-multiple = false
+      width="80"
     >
     </el-table-column>
     <el-table-column
       prop="NAME"
-      label="姓名"
-      width="55">
+      label="姓名">
     </el-table-column>
     <el-table-column
       prop="mon"
       label="周一"
-      width="55">
+      width="57">
     </el-table-column>
     <el-table-column
       prop="tues"
       label="周二"
-      width="60">
+      width="57">
     </el-table-column>
     <el-table-column
       prop="wed"
       label="周三"
-      width="60">
+      width="57">
     </el-table-column>
     <el-table-column
       prop="thur"
       label="周四"
-      width="60">
+      width="57">
     </el-table-column>
     <el-table-column
       prop="fri"
       label="周五"
-      width="60">
+      width="57">
     </el-table-column>
     <el-table-column
       prop="sat"
       label="周六"
-      width="60">
+      width="57">
     </el-table-column>
     <el-table-column
       prop="sun"
       label="周日"
-      width="60">
+      width="57">
     </el-table-column>
 
   </el-table></div>
@@ -112,6 +112,7 @@ export default {
 <style scoped>
 .table{
     margin-top: 20px;
+    margin-bottom: 50px;
 }
 .wrap{
 }
