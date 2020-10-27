@@ -1,76 +1,47 @@
 <template>
-<div>
-  <el-button @click="resetDateFilter">清除日期过滤器</el-button>
-  <el-button @click="clearFilter">清除所有过滤器</el-button>
-  <el-table
-    ref="filterTable"
-    :data="tableData"
-    style="width: 100%">
-    <el-table-column
-      prop="name"
-      label="名字"
-      column-key="name"
-      :filters="[{text: '王小虎', value: '王小虎'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-      :filter-method="filterHandler"
-    >
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="姓名"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="address"
-      label="地址"
->
-    </el-table-column>
- 
-  </el-table>
+<div class="EchartPractice">
+    <div id="main"></div>
   </div>
 </template>
 
 <script>
   export default {
-    data() {
-      return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          tag: '家'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄',
-          tag: '公司'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄',
-          tag: '家'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄',
-          tag: '公司'
-        }]
+    name: "EchartPractice",
+    methods:{
+      drawChart() {
+        let myEchart = this.$echarts.init(document.getElementById("main"));
+        let option = {
+          title:{
+            text:"Vue中使用Echarts小练习"
+          },
+          tooltip:{},
+          legend:{
+            data:["销量"]
+          },
+          xAxis:{
+            data: ["苹果","香蕉","橘子","葡萄",]
+          },
+          yAxis:{},
+          series:[{
+            name:'销量',
+            type:"bar",
+            data:[50,60,45,30,]
+          }]
+        };
+        myEchart.setOption(option);
       }
     },
-    methods: {
-      resetDateFilter() {
-        this.$refs.filterTable.clearFilter('date');
-      },
-      clearFilter() {
-        this.$refs.filterTable.clearFilter();
-      },
-     
-      filterTag(value, row) {
-        return row.tag === value;
-      },
-      filterHandler(value, row, column) {
-        const property = column['property'];
-        return row[property] === value;
-      }
+    mounted() {
+      this.drawChart();
     }
   }
 </script>
+
+<style scoped>
+  #main {
+    width: 600px;
+    height:400px;
+    margin: auto;
+    margin-top: 100px
+  }
+</style>

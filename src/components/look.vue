@@ -1,5 +1,6 @@
 <template>
     <div class="wrap">
+    
      <el-table
      ref="filterTable"
      class='table'
@@ -7,6 +8,7 @@
     stripe
     border
     height = "800"
+    @row-click="rowClick"
     style="width: 100%">
     <el-table-column
       prop="class"
@@ -15,12 +17,15 @@
       :filters="filterData"
       :filter-method="filterHandler"
       :filter-multiple = false
+      
       width="80"
     >
     </el-table-column>
     <el-table-column
       prop="NAME"
-      label="姓名">
+      width="80"
+      label="姓名"
+      >
     </el-table-column>
     <el-table-column
       prop="mon"
@@ -58,7 +63,13 @@
       width="57">
     </el-table-column>
 
-  </el-table></div>
+  </el-table>
+    <van-popup v-model="show" position="bottom" :overlay="overlay" :style="{ height: '40%',opacity:opacity }">
+    <div class="EchartPractice" >
+    <div id="main" ref="chart"></div>
+    </div>
+    </van-popup>
+  </div>
 </template>
 <script>
 export default {
@@ -67,16 +78,71 @@ export default {
         tableData: [],
         filterData:[],
         data: [],
-        dataAll:[]
+        dataAll:[],
+        persondata:[],
+        show: false,
+        name:'',
+        mon:'',
+        tues:'',
+        wed:'',
+        thur:'',
+        fri:'',
+        sat:'',
+        sun:'',
+        total:0,
+        overlay:false,
+        opacity:0
         }
     },
     async created(){
          const { data } = await this.$axios.get(`/getQRClass`);
          let filter = localStorage.getItem("filter")
          this.tableData =  data.data
-        this.getfilterArray()
+          this.getfilterArray()
     },
     methods: {
+      drawChart() {
+        var bar_dv = this.$refs.chart;
+         
+        if (bar_dv){
+        let myChart = this.$echarts.init(main)
+        let option = {
+          title:{
+            text:this.name+" 本周签到时长:"+this.total
+          },
+          tooltip:{},
+          
+          xAxis:{
+            data: ["周一","周二","周三","周四","周五","周六","周日"]
+          },
+          yAxis:{
+            type: 'value'
+          },
+          series:[{
+            name:'销量',
+            type:"line",
+            data:this.persondata
+          }
+          ]
+        };
+       
+        myChart.setOption(option);
+      }}
+      ,
+      rowClick(row){
+        this.show = true;
+        let thisrowData = this
+        thisrowData = row
+        this.name = thisrowData.NAME
+        this.persondata = [thisrowData.mon,thisrowData.tues,thisrowData.wed,thisrowData.thur,thisrowData.fri,thisrowData.sat,thisrowData.sun]
+        
+        this.persondata.forEach((i) => {         
+          this.total+=parseFloat(i)
+        })
+        
+        this.drawChart();
+        this.total = 0
+      },
       filterHandler(value, row, column,type=0) {
         if(!localStorage.getItem("filter") || localStorage.getItem("filter") !== value){
           localStorage.setItem("filter",value)
@@ -97,16 +163,22 @@ export default {
         });
         for (const key in obj) {
           if (obj.hasOwnProperty(key)) {
-            // let obj2 = {text:${key},value:${key}`}
-            this.filterData.push({'text':key,'value':key})  
-            
+            this.filterData.push({'text':key,'value':key})     
           }
         }
-        console.log(this.filterData)  
 
       }
 
     },
+    mounted() {
+      
+    this.show = true;
+    setTimeout(()=>{
+        this.show = false;
+        this.opacity =1
+        this.overlay = true
+    },)
+  }
 }
 </script>
 <style scoped>
@@ -116,4 +188,10 @@ export default {
 }
 .wrap{
 }
+#main {
+    width: 350px;
+    height:250px;
+    margin: auto;
+    margin-top: 20px
+  }
 </style>
